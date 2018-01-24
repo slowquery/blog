@@ -1,0 +1,350 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+body {
+	font-family: "Noto Sans KR", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.top-active {
+	color: #464646;
+}
+.title-logo {
+	background-color: #424242;
+	padding: 8rem 2rem;
+}
+.main-logo-nav {
+	max-width: 265px;
+	margin: auto;
+}
+.main-logo {
+	width: 100%;
+}
+.main-logo-nav p {
+	text-align: left;
+	font-size: 1.2em;
+	color: #FFF;
+	position: absolute;
+	line-height: 2.5;
+}
+.my-profile {
+	border: 1px solid #5a5a5a;
+	padding: .75em;
+	overflow: hidden;
+}
+.my-profile img {
+	max-width: 5em;
+	border-radius: 5em;
+	float: left;
+}
+.my-profile h2 {
+	font-size: 25px;
+}
+.my-profile .editor {
+	color: #000;
+	font-size: 1.3em;
+}
+.my-profile .profile-editor {
+	padding: .5em 6.5em;
+}
+.my-profile .profile-editor .white {
+	color: #c3c3c3;
+}
+.my-profile .profile-editor .introduce {
+	font-size: 1em;
+}
+.post-card {
+	width: 100%;
+	height: 300px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-radius: 4px;
+	-moz-transition: all .2s;
+	-o-transition: all .2s;
+	-webkit-transition: all .2s;
+	transition: all .2s;
+	overflow: hidden;
+}
+.post-card:before {
+	content: ' ';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	opacity: 0.6;
+	background-repeat: no-repeat;
+	background-position: center center;
+	-ms-background-size: cover;
+	-o-background-size: cover;
+	-moz-background-size: cover;
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+.card:hover .post-card {
+	/*-o-transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);*/
+	box-shadow: 0 12px 8px -6px #ccc;
+	-webkit-box-shadow: 0 12px 8px -6px #ccc;
+	-moz-box-shadow: 0 12px 8px -6px #ccc;
+}
+.post-cardlist {
+	padding: 15px;
+}
+.post-cardlist .card {
+	border: 0;
+}
+.card-img-overlay span {
+	float: right;
+	font-size: 14px;
+	color: #FFF;
+	font-weight: 400;
+}
+.loading {
+	width: 100%;
+}
+.loading img {
+	width: 225px;
+}
+.loading.active {
+	display: block !import;
+}
+.post-content {
+	position: absolute;
+	bottom: 1em;
+	padding-right: 1.2em;
+	text-decoration: none;
+	color: #FFF;
+}
+.post-content .post-title {
+	font-size: 22px;
+	word-break: keep-all;
+	font-weight: 500;
+	padding-bottom: .5em;
+}
+.post-content .post-description {
+	font-size: 14px;
+	opacity: 0.5;
+}
+.post-main-wrapper {
+	text-align: center;
+}
+.post-main {
+	padding: 3em 0;
+}
+.post-main .main-title {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.post-main .main-description {
+	color: #bdbdbd;
+	font-size: 1em;
+	font-weight: 500;
+	padding: .5em 0;
+}
+.post-main .main-time {
+	font-size: 1em;
+	font-weight: bold;
+	color: #bdbdbd;
+	padding: 1.5em 0;
+}
+.post-main .my-4 {
+	width: 80%;
+}
+.post-main .main-content p {
+	font-size: 1.15em;
+}
+.post-main .main-content a {
+	color: #71bbf7;
+	text-decoration: none;
+}
+.post-main .main-content a *  {
+	padding: .25em;
+}
+.post-main .main-content a:hover  {
+	background-color: #e0f0fd;
+}
+.post-main .main-content img {
+	max-width: 80%;
+}
+.post-main .main-comment {
+	font-weight: bold;
+}
+.comment-count {
+	color: #5f5f5f;
+}
+.comment-input {
+	margin-top: 1em;
+	border: 1px solid #000;
+	border-radius: 3px;
+	position: relative;
+}
+.comment-input input:focus, .comment-input textarea:focus {
+    outline: none;
+}
+.comment-name {
+	height: 40px;
+}
+.comment-name input {
+	padding: .5em;
+	font-size: 1em;
+	border: 0;
+	width: 100%;
+	height: 100%;
+}
+.comment-main {
+	height: 70px;
+}
+.comment-main textarea {
+	padding: .5em;
+	font-size: .9em;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	resize: none;
+}
+.comment-notice {
+	width: 100%;
+	height: 30px;
+}
+.comment-notice-text {
+	display: inline-block;
+	padding: .5em;
+	font-size: .9em;
+	color: #848484;
+	position: absolute;
+	bottom: 0;
+	font-weight: 400;
+}
+.comment-send {
+	border: 0;
+	background-color: #424242;
+	color: #FFF;
+	padding: .35em 1em;
+	margin: .5em;
+	border-radius: 3px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.comment-hr {
+	width: 98%;
+}
+.comment-input input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	color: #cbcbcb;
+}
+.comment-input textarea::-webkit-input-placeholder {
+	color: #d6d6d6;
+}
+.comment-input input::-moz-placeholder { /* Firefox 19+ */
+	color: #cbcbcb;
+}
+.comment-input textarea::-moz-placeholder {
+	color: #d6d6d6;
+}
+.comment-input input:-ms-input-placeholder { /* IE 10+ */
+	color: #cbcbcb;
+}
+.comment-input textarea:-ms-input-placeholder {
+	color: #d6d6d6;
+}
+.comment-input input:-moz-placeholder { /* Firefox 18- */
+	color: #cbcbcb;
+}
+.comment-input textarea:-moz-placeholder {
+	color: #d6d6d6;
+}
+
+.comment-scroll::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.comment-scroll::-webkit-scrollbar {
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+.comment-scroll::-webkit-scrollbar-thumb {
+	background-color: #000000;
+}
+
+.real-comment-name {
+	font-size: 1.25em;
+	font-weight: bold;
+	margin-bottom: .5em;
+}
+.real-comment-main {
+	font-size: 1em;
+	font-weight: 400;
+}
+.tag-default {
+	background-color: #d6d6d6;
+}
+.tag span {
+	margin: 0 .25em;
+}
+
+.glass {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  border-radius: 50%;
+  cursor: none;
+  
+  /* Multiple box shadows to achieve the glass effect */
+  box-shadow:
+    0 0 0 7px rgba(255, 255, 255, 0.85),
+    0 0 7px 7px rgba(0, 0, 0, 0.25), 
+    inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+  
+  /* hide the glass by default */
+  display: none;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 2em;
+}
+
+.footer-icon {
+	padding: .5em 0;
+}
+
+.footer-icon a {
+	text-decoration: none;
+	color: #000;
+}
+
+.footer-icon i {
+	font-size: 2.5em;
+	padding: 0 .5em;
+}
+
+.text-muted {
+	font-size: 1em;
+	position: relative;
+	top: .5em;
+	text-decoration: none;
+	word-break: keep-all;
+}
+.text-muted a {
+	text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+	.my-profile img {
+		max-width: 60%;
+		margin: 0 20%;
+		border-radius: 60%;
+	}
+	.my-profile .profile-editor {
+		padding: 0;
+	}
+}

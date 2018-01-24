@@ -1,0 +1,271 @@
+extends header.pug
+block title
+	title 블로그 admin
+block scripts
+	link(rel='stylesheet', href='/css/font.css')
+	link(rel='stylesheet', href='/css/picedit.css')
+	link(rel='stylesheet', href='/css/admin.css')
+	link(rel='stylesheet', href='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css')
+	script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
+	script(src='/js/picedit.js')
+block content
+	if post
+		script.
+			$(document).ready(function(){
+				var simplemde = new SimpleMDE({element: $("#md-content")[0]});
+				$('.picedit_box').picEdit({
+					imageUpdated: function(img){
+					},
+					formSubmitted: function(data){
+						$(".return").text(JSON.parse(data["response"])["filename"]);
+					},
+					redirectUrl: false,
+					defaultImage: false
+				});
+
+				$(".mdecontent").click(function(){
+					$.ajax({
+						url: "/admin/post",
+						type: "POST",
+						data: "title=" + $("input[name='title']").val() + "&description=" + $("input[name='description']").val() + "&password=" + $("input[name='password']").val() + "&tag=" + $("input[name='tag']").val() + "&bgcolor=" + $("select[name='bgcolor']").val() + "&thumbnail=" + $("input[name='thumbnail']").val() + "&content=" + simplemde.value() + "&type=write",
+					})
+					.done(function(data) {
+						if(data["code"] === 200)
+							location.href = "/admin/main";
+						else
+							alert(data["code"]);
+					});
+				});
+
+				setInterval(function() {
+					$.ajax({
+						url: "/admin/post",
+						type: "POST",
+						data: "title=" + $("input[name='title']").val() + "&description=" + $("input[name='description']").val() + "&password=" + $("input[name='password']").val() + "&tag=" + $("input[name='tag']").val() + "&bgcolor=" + $("select[name='bgcolor']").val() + "&thumbnail=" + $("input[name='thumbnail']").val() + "&content=" + simplemde.value() + "&type=save",
+					})
+					.done(function(data) {
+						console.log(data);
+					});	
+				}, 1000 * 60);
+				$(".save_load").click(function() {
+					$.ajax({
+						url: "/admin/save",
+						type: "GET"
+					})
+					.done(function(data) {
+						if(data["code"] === 200) {
+							$("input[name='title']").val(data["data"]["title"]);
+							$("input[name='description']").val(data["data"]["description"]);
+							$("input[name='password']").val(data["data"]["password"]);
+							$("input[name='tag']").val(data["data"]["tag"].toString());
+							$("select[name='bgcolor']").val(data["data"]["bgcolor"]);
+							$("input[name='thumbnail']").val(data["data"]["thumbnail"]);
+							simplemde.value(data["data"]["content"]);
+						}
+					});
+				});
+
+				$("input[name='title']").val("#{post["title"]}");
+				$("input[name='description']").val("#{post["description"]}");
+				$("input[name='password']").val("#{post["password"]}");
+				$("input[name='tag']").val("#{post["tag"]}");
+				$("select[name='bgcolor']").val("#{post["bgcolor"]}");
+				$("input[name='thumbnail']").val("#{post["thumbnail"]}");
+				simplemde.value(`#{post["content"]}`);
+				$(".mdecontent-edit").click(function(){
+					$.ajax({
+						url: "/admin/post",
+						type: "POST",
+						data: "title=" + $("input[name='title']").val() + "&description=" + $("input[name='description']").val() + "&password=" + $("input[name='password']").val() + "&tag=" + $("input[name='tag']").val() + "&bgcolor=" + $("select[name='bgcolor']").val() + "&thumbnail=" + $("input[name='thumbnail']").val() + "&content=" + simplemde.value() + "&type=edit" + "&id=" + "#{id}",
+					})
+					.done(function(data) {
+						if(data["code"] === 200)
+							location.href = "/admin/main";
+						else
+							alert(data["code"]);
+					});
+				});
+			});
+	else
+		script.
+			$(document).ready(function(){
+				var simplemde = new SimpleMDE({element: $("#md-content")[0]});
+				$('.picedit_box').picEdit({
+					imageUpdated: function(img){
+					},
+					formSubmitted: function(data){
+						$(".return").text(JSON.parse(data["response"])["filename"]);
+					},
+					redirectUrl: false,
+					defaultImage: false
+				});
+
+				$(".mdecontent").click(function(){
+					$.ajax({
+						url: "/admin/post",
+						type: "POST",
+						data: "title=" + $("input[name='title']").val() + "&description=" + $("input[name='description']").val() + "&password=" + $("input[name='password']").val() + "&tag=" + $("input[name='tag']").val() + "&bgcolor=" + $("select[name='bgcolor']").val() + "&thumbnail=" + $("input[name='thumbnail']").val() + "&content=" + simplemde.value() + "&type=write",
+					})
+					.done(function(data) {
+						if(data["code"] === 200)
+							location.href = "/admin/main";
+						else
+							alert(data["code"]);
+					});
+				});
+
+				setInterval(function() {
+					$.ajax({
+						url: "/admin/post",
+						type: "POST",
+						data: "title=" + $("input[name='title']").val() + "&description=" + $("input[name='description']").val() + "&password=" + $("input[name='password']").val() + "&tag=" + $("input[name='tag']").val() + "&bgcolor=" + $("select[name='bgcolor']").val() + "&thumbnail=" + $("input[name='thumbnail']").val() + "&content=" + simplemde.value() + "&type=save",
+					})
+					.done(function(data) {
+						console.log(data);
+					});	
+				}, 1000 * 60);
+				$(".save_load").click(function() {
+					$.ajax({
+						url: "/admin/save",
+						type: "GET"
+					})
+					.done(function(data) {
+						if(data["code"] === 200) {
+							$("input[name='title']").val(data["data"]["title"]);
+							$("input[name='description']").val(data["data"]["description"]);
+							$("input[name='password']").val(data["data"]["password"]);
+							$("input[name='tag']").val(data["data"]["tag"].toString());
+							$("select[name='bgcolor']").val(data["data"]["bgcolor"]);
+							$("input[name='thumbnail']").val(data["data"]["thumbnail"]);
+							simplemde.value(data["data"]["content"]);
+						}
+					});
+				});
+			});
+	.container.pt-4.pb-4.login
+		if mode === "write"
+			h1 글쓰기
+		else
+			h1 글편집
+		//form(name="post", action="/admin/post", method="POST")
+		button.save_load.btn.btn-primary 글 불러오기
+		div.form-group
+			label(for="formGroupExampleInput") 글 제목
+			input.form-control(type="text", placeholder="글 제목", name="title")
+		div.form-group
+			label(for="formGroupExampleInput") 글 설명
+			input.form-control(type="text", placeholder="글 설명", name="description")
+		div.form-group
+			label(for="formGroupExampleInput") 글 비밀번호
+			input.form-control(type="password", placeholder="글 비밀번호(없으면 공백)", name="password")
+		div.form-group
+			label(for="formGroupExampleInput") 글 태그
+			input.form-control(type="text", placeholder="글 태그", name="tag")
+		div.form-group
+			label(for="formGroupExampleInput") 글 배경색
+			select.form-control(name="bgcolor")
+				option(value="") 선택
+				option(value="#3cce5f") #3cce5f (파란색)
+				option(value="#dd528b") #dd528b (분홍색)
+				option(value="#ff8155") #ff8155 (주황색)
+				option(value="#3cce5f") #3cce5f (분홍색)
+		div.form-group
+			label(for="formGroupExampleInput") 글 배경 사진 이름
+			input.form-control(type="text", placeholder="글 배경 사진 이름(확장자 포함)", name="thumbnail")
+		//button.mdecontent.btn.btn-primary(type="submit") 글쓰기
+		form(name='asyncimage', action='/admin/upload', method='post', enctype='multipart/form-data')
+			div(style='margin:4% auto 0 auto; display: table;')
+				// begin_picedit_box
+				.picedit_box
+					// Placeholder for messaging
+					.picedit_message
+						span.picedit_control.ico-picedit-close(data-action='hide_messagebox')
+						div
+					// Picedit navigation
+					.picedit_nav_box.picedit_gray_gradient
+						.picedit_pos_elements
+						.picedit_nav_elements
+							// Picedit button element begin
+							.picedit_element
+								span.picedit_control.picedit_action.ico-picedit-pencil(title='Pen Tool')
+								.picedit_control_menu
+									.picedit_control_menu_container.picedit_tooltip.picedit_elm_3
+										label.picedit_colors
+											span.picedit_control.picedit_action.picedit_black.active(title='Black', data-action='toggle_button', data-variable='pen_color', data-value='black')
+											span.picedit_control.picedit_action.picedit_red(title='Red', data-action='toggle_button', data-variable='pen_color', data-value='red')
+											span.picedit_control.picedit_action.picedit_green(title='Green', data-action='toggle_button', data-variable='pen_color', data-value='green')
+										label
+											span.picedit_separator
+										label.picedit_sizes
+											span.picedit_control.picedit_action.picedit_large(title='Large', data-action='toggle_button', data-variable='pen_size', data-value='16')
+											span.picedit_control.picedit_action.picedit_medium(title='Medium', data-action='toggle_button', data-variable='pen_size', data-value='8')
+											span.picedit_control.picedit_action.picedit_small(title='Small', data-action='toggle_button', data-variable='pen_size', data-value='3')
+							// Picedit button element end
+							// Picedit button element begin
+							.picedit_element
+								span.picedit_control.picedit_action.ico-picedit-insertpicture(title='Crop', data-action='crop_open')
+							// Picedit button element end
+							// Picedit button element begin
+							.picedit_element
+								span.picedit_control.picedit_action.ico-picedit-redo(title='Rotate')
+								.picedit_control_menu
+									.picedit_control_menu_container.picedit_tooltip.picedit_elm_1
+										label
+											span 90° CW
+											span.picedit_control.picedit_action.ico-picedit-redo(data-action='rotate_cw')
+										label
+											span 90° CCW
+											span.picedit_control.picedit_action.ico-picedit-undo(data-action='rotate_ccw')
+							// Picedit button element end
+							// Picedit button element begin
+							.picedit_element
+								span.picedit_control.picedit_action.ico-picedit-arrow-maximise(title='Resize')
+								.picedit_control_menu
+									.picedit_control_menu_container.picedit_tooltip.picedit_elm_2
+										label
+											span.picedit_control.picedit_action.ico-picedit-checkmark(data-action='resize_image')
+											span.picedit_control.picedit_action.ico-picedit-close(data-action='')
+										label
+											span Width (px)
+											input.picedit_input(type='text', data-variable='resize_width', value='0')
+										label.picedit_nomargin
+											span.picedit_control.ico-picedit-link(data-action='toggle_button', data-variable='resize_proportions')
+										label
+											span Height (px)
+											input.picedit_input(type='text', data-variable='resize_height', value='0')
+							// Picedit button element end
+					// Picedit canvas element
+					.picedit_canvas_box
+						.picedit_painter
+							canvas
+						.picedit_canvas
+							canvas
+						.picedit_action_btns.active
+							.picedit_control.ico-picedit-picture(data-action='load_image')
+							.picedit_control.ico-picedit-camera(data-action='camera_open')
+							.center or copy/paste image here
+					// Picedit Video Box
+					.picedit_video
+						video(autoplay='')
+						.picedit_video_controls
+							span.picedit_control.picedit_action.ico-picedit-checkmark(data-action='take_photo')
+							span.picedit_control.picedit_action.ico-picedit-close(data-action='camera_close')
+					// Picedit draggable and resizeable div to outline cropping boundaries
+					.picedit_drag_resize
+						.picedit_drag_resize_canvas
+						.picedit_drag_resize_box
+							.picedit_drag_resize_box_corner_wrap
+								.picedit_drag_resize_box_corner
+							.picedit_drag_resize_box_elements
+								span.picedit_control.picedit_action.ico-picedit-checkmark(data-action='crop_image')
+								span.picedit_control.picedit_action.ico-picedit-close(data-action='crop_close')
+				// end_picedit_box
+			div(style='margin-top:30px; text-align: center;')
+				button.picupload(type='submit') 사진 업로드
+			p.return.text-center.pt-3
+		div.form-group
+			textarea#md-content(name="content")
+			if mode === "write"
+				button.mdecontent.btn.btn-primary(type="submit") 글쓰기
+			else
+				button.mdecontent-edit.btn.btn-primary(type="submit") 글편집

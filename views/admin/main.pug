@@ -1,0 +1,28 @@
+extends header.pug
+block title
+	title 블로그 admin
+block scripts
+	link(rel='stylesheet', href='/css/admin.css')
+block content
+		.container.pt-4.login
+			h1 관리자 메인
+			div.container.text-center
+				if post.length
+					p.text-left
+						span.badge.badge-success count: #{post.length}
+					table.table.table-striped
+						thead
+							tr
+								th(scope="col") Title
+								th(scope="col") Description
+								th(scope="col") Edit
+								th(scope="col") Delete
+						tbody
+							each data in post
+								tr
+									th(scope="row") #{data["title"]}
+									th(scope="row") #{data["description"]}
+									th(scope="row")
+										a(href=`write?mode=edit&id=${data["_id"]}`) 수정
+									th(scope="row") 
+										a(href=`post?id=${data["_id"]}`) 삭제

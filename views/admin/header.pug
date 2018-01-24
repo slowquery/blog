@@ -1,0 +1,29 @@
+html
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, user-scalable=no')
+		block title
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='/css/style.css')
+		script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js')
+		block scripts
+	body
+		
+		nav.navbar.navbar-expand-lg.navbar-light.bg-light
+			.container
+				a.navbar-brand(href='/admin') 기술블로그(admin)
+				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#blog-nav', aria-controls='blog-nav', aria-expanded='false', aria-label='Toggle navigation')
+					span.navbar-toggler-icon
+				#blog-nav.collapse.navbar-collapse
+					ul.navbar-nav.mr-auto
+						if admin
+							li.nav-item
+								a.nav-link(href='/admin/write') 글 작성 
+								span.sr-only (current)
+							li.nav-item
+								a.nav-link(href='/admin/logout') 로그아웃
+								span.sr-only (current)
+		block content

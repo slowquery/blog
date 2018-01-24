@@ -1,0 +1,29 @@
+html
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, user-scalable=no')
+		block title
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='/css/style.css')
+		script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js')
+		script(src='/js/infinitescroll.js')
+		block scripts
+	body
+		
+		nav.navbar.navbar-expand-lg.navbar-light.bg-light
+			.container
+				a.navbar-brand(href='/') 기술블로그
+				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#blog-nav', aria-controls='blog-nav', aria-expanded='false', aria-label='Toggle navigation')
+					span.navbar-toggler-icon
+				#blog-nav.collapse.navbar-collapse
+					ul.navbar-nav.mr-auto
+						li.nav-item
+							a.nav-link(href='#') 소개 
+							span.sr-only (current)
+					form.form-inline.mt-2.mt-md-0.mb-0
+						input.form-control.mr-sm-2(type='text', placeholder='Search', aria-label='Search')
+						button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
+		block content

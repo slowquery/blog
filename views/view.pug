@@ -1,0 +1,63 @@
+extends header.pug
+block title
+	title antiweb 기술 블로그
+block scripts
+	// 줌인
+	script(src='/js/zoom.js')
+	// Syntax HighLighter
+	link(rel='stylesheet', href='/highlight/styles/androidstudio.css')
+	script(src='/highlight/highlight.pack.js')
+	script(src='/js/view.js')
+	script.
+		hljs.initHighlightingOnLoad();
+block content
+	.post-main.container
+		.post-main-wrapper
+			.main-title #{post["title"]}
+			.main-description #{post["description"]}
+			.main-time #{moment(new Date(post["time"])).format("YYYY.MM.DD HH:mm:ss")}
+		hr.my-4
+		.main-content
+			!=post["content"]
+			h1 h1제목
+			h2 h2제목
+			h3 h3제목
+			h4 h4제목
+			h5 h5제목
+			h6 h6제목
+			p 기본적인 글일 경우
+			a(href='#', target='_blank')
+				span 링크
+			p
+				img.magniflier(src='http://placekitten.com/1500/1000')
+			// <span class="badge badge-pill badge-default">태그 </span>
+			div.tag
+				span.badge.badge-pill.badge-default.tag-default 태그
+				span.badge.badge-success #개발자
+				span.badge.badge-success #노드제이에스
+		hr.my-4
+		.main-comment
+			.comment-count 댓글 7
+			.comment-input
+				.comment-name
+					input(type='text', placeholder='작성자 이름', name='name')
+				hr.comment-hr.mt-1.mb-1
+				.comment-main
+					textarea.comment-scroll(placeholder='댓글 쓰기', name='comment')
+				.comment-notice
+					.comment-notice-text enter로 전송, shift+enter로 줄바꿈이 가능합니다.
+					button.comment-send 전송
+		.comment-list.mt-4
+			.real-comment
+				.real-comment-name 구창림
+				.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
+				hr.my-1.mt-3.mb-3
+			.real-comment
+				.real-comment-name 구창림
+				.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
+				hr.my-1.mt-3.mb-3
+			.real-comment
+				.real-comment-name 구창림
+				.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
+				hr.my-1.mt-3.mb-3
+	include footer.pug
