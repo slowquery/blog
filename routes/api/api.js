@@ -1,6 +1,7 @@
 "use strict";
 const joi = require("joi");
 const moment = require("moment");
+const util = require("../../lib/util");
 
 const index = async(ctx) => {
 	ctx.body = "API SERVER";
@@ -67,5 +68,53 @@ const post = async(ctx) => {
 	}
 }
 
+const auth = async(ctx) => {
+	const model = require("../../model/post");
+	let {password, key} = ctx.request.body;
+
+	const joi_schema = joi.object({
+		password: joi.string().required(),
+		key: joi.string().alphanum().min(24).max(24).required()
+	});
+	
+	if(joi.validate(ctx.request.body, joi_schema).error) {
+		ctx.status = 401;
+		ctx.body = {
+			code: 401,
+			body: "invalid parameter"
+		};
+		return;
+	}
+
+	try {
+		let post = await new Promise((resolve, reject) => {
+			model.findOne({_id: key, password: util.sha512Hash(password)}, (err, data) => err ? reject(err) : resolve(data));
+		});
+
+		if(!post) {
+			ctx.status = 404;
+			ctx.body = {
+				code: 404,
+				body: "data not found"
+			};
+			return;
+		}
+
+		ctx.session.auth = key;
+		ctx.body = {
+			code: 200
+		}
+		return;
+	} catch(err) {
+		ctx.status = 500;
+		ctx.body = {
+			code: 400,
+			body: "error"
+		};
+		return;
+	}
+}
+
 module.exports.index = index;
 module.exports.post = post;
+module.exports.auth = auth;

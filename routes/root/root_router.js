@@ -19,6 +19,8 @@ const index = async(ctx) => {
 
 const view = async(ctx) => {
 	const model = require("../../model/post");
+	const html = require("htmldom");
+
 	let {view_id} = ctx.params;
 
 	const joi_schema = joi.object({
@@ -41,10 +43,30 @@ const view = async(ctx) => {
 			model.findOne({_id: view_id}, (err, data) => err ? reject(err) : resolve(data));
 		});
 
-		post["content"] = marked(post["content"]);
-		console.log(post);
-		ctx.render("view", {post: post, moment: require("moment")});
-		return;
+		if(!post) {
+			ctx.redirect("/");
+			return;
+		}
+
+		if(post["password"] === null || ctx.session.auth === view_id) {
+			let dom = new html(marked(post["content"]));
+			let $ = dom.$;
+
+			$("img").addClass("magniflier");
+			$("a").attr("target", "_blank");
+
+			post["content"] = dom.html();
+
+			ctx.session.auth ?
+				ctx.session = null : null;
+
+			ctx.render("view", {post: post, moment: require("moment")});
+			return;
+		}
+		else {
+			ctx.render("view", {id: view_id});
+			return;
+		}
 	} catch(err) {
 		console.error(err);
 		ctx.redirect("/");

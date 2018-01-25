@@ -12,52 +12,76 @@ block scripts
 		hljs.initHighlightingOnLoad();
 block content
 	.post-main.container
-		.post-main-wrapper
-			.main-title #{post["title"]}
-			.main-description #{post["description"]}
-			.main-time #{moment(new Date(post["time"])).format("YYYY.MM.DD HH:mm:ss")}
-		hr.my-4
-		.main-content
-			!=post["content"]
-			h1 h1제목
-			h2 h2제목
-			h3 h3제목
-			h4 h4제목
-			h5 h5제목
-			h6 h6제목
-			p 기본적인 글일 경우
-			a(href='#', target='_blank')
-				span 링크
-			p
-				img.magniflier(src='http://placekitten.com/1500/1000')
-			// <span class="badge badge-pill badge-default">태그 </span>
-			div.tag
-				span.badge.badge-pill.badge-default.tag-default 태그
-				span.badge.badge-success #개발자
-				span.badge.badge-success #노드제이에스
-		hr.my-4
-		.main-comment
-			.comment-count 댓글 7
-			.comment-input
-				.comment-name
-					input(type='text', placeholder='작성자 이름', name='name')
-				hr.comment-hr.mt-1.mb-1
-				.comment-main
-					textarea.comment-scroll(placeholder='댓글 쓰기', name='comment')
-				.comment-notice
-					.comment-notice-text enter로 전송, shift+enter로 줄바꿈이 가능합니다.
-					button.comment-send 전송
-		.comment-list.mt-4
-			.real-comment
-				.real-comment-name 구창림
-				.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
-				hr.my-1.mt-3.mb-3
-			.real-comment
-				.real-comment-name 구창림
-				.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
-				hr.my-1.mt-3.mb-3
-			.real-comment
-				.real-comment-name 구창림
-				.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
-				hr.my-1.mt-3.mb-3
+		if post
+			.post-main-wrapper
+				.main-title #{post["title"]}
+				.main-description #{post["description"]}
+				.main-time #{moment(new Date(post["time"])).format("YYYY.MM.DD HH:mm:ss")}
+			hr.my-4
+			.main-content
+				!=post["content"]
+				div.tag
+					span.badge.badge-pill.badge-default.tag-default 태그
+					each tag in post["tag"]
+						span.badge.badge-success #{tag}
+			hr.my-4
+			.main-comment
+				.comment-count 댓글 7
+				.comment-input
+					.comment-name
+						input(type='text', placeholder='작성자 이름', name='name')
+					hr.comment-hr.mt-1.mb-1
+					.comment-main
+						textarea.comment-scroll(placeholder='댓글 쓰기', name='comment')
+					.comment-notice
+						.comment-notice-text enter로 전송, shift+enter로 줄바꿈이 가능합니다.
+						button.comment-send 전송
+			.comment-list.mt-4
+				.real-comment
+					.real-comment-name 구창림
+					.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
+					hr.my-1.mt-3.mb-3
+				.real-comment
+					.real-comment-name 구창림
+					.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
+					hr.my-1.mt-3.mb-3
+				.real-comment
+					.real-comment-name 구창림
+					.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
+					hr.my-1.mt-3.mb-3
+		else
+			script.
+				$(document).ready(function(){
+					function auth() {
+						$.ajax({
+							url: "/api/auth",
+							type: "POST",
+							data: "password=" + $("input[name='password']").val() + "&key=" + $(".password-auth").attr("key"),
+							error: function() {
+								location.href = "/";
+							}
+						})
+						.done(function(data){
+							if(data["code"] === 200)
+								location.reload();
+							else
+								location.href = "/";
+						});
+					}
+					$(".auth-btn").click(function(){
+						auth();
+					});
+					$("input[name='password']").keyup(function(e){
+						if(e.keyCode == 13) auth();
+					});
+				});
+			.text-center
+				h1.pt-4.pb-4 Locked!
+				div.row.justify-content-md-center
+					div.col-12.col-md-auto
+						.password-auth(key=`${id}`)
+							div.form-group
+								label(for="formGroupExampleInput") PASSWORD
+								input.form-control(type="password", placeholder="PASSWORD", name="password")
+							button.auth-btn.btn.btn-primary(type="button") AUTH
 	include footer.pug

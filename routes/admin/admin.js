@@ -218,10 +218,22 @@ const post = async(ctx, next) => {
 	}
 
 	try {
+		switch(password.length) {
+			case 0:
+				password = null;
+				break; 
+			case 128:
+				password = password;
+				break;
+			default:
+				password = util.sha512Hash(password);
+				break;
+		}
+
 		let post = new model({
 			title: title,
 			description: description,
-			password: password ? util.sha512Hash(password) : null,
+			password: password,
 			tag: tag,
 			bgcolor: bgcolor ? bgcolor : null,
 			thumbnail: thumbnail ? thumbnail : null,
