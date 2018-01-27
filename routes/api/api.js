@@ -145,8 +145,6 @@ const comment = async(ctx) => {
 			content: xss(content)
 		});
 
-		console.log(comment.toObject());
-
 		let post_push = await postModel.pushComment({post: post, comment: comment._id});
 
 		if(!post_push) {

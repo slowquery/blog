@@ -3,8 +3,8 @@ const session = require("koa-generic-session");
 const redisStore = require("koa-redis");
 
 module.exports = {
-	port: 80,
-	secret_key: "SeCreTKeY!@",
+	port: 40000,
+	secret_key: "bL0GSeCreTKeY@#$",
 	redis_session: session({
 		store: redisStore({
 			host: "127.0.0.1",
@@ -19,8 +19,8 @@ module.exports = {
 			signed: false
 		},
 		key: "PHPSESSID",
-		prefix: "blog:sess:"
+		prefix: "blog:"
 	}),
-	mongoURI: "mongodb://127.0.0.1/blog",
+	mongoURI: "mongodb://antiweb%3Apingumaster!%23@127.0.0.1:27017/blog",
 	path: __dirname
 }
