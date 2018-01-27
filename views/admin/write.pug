@@ -15,6 +15,25 @@ block content
 				function b64_to_utf8( str ) {
 				    return decodeURIComponent(escape(window.atob( str )));
 				}
+				function uploadFile(){
+					var form = $('.upload')[0];
+					var formData = new FormData(form);
+					formData.append("file", $(".file")[0].files[0]);
+
+					$.ajax({
+						url: "/admin/upload",
+						processData: false,
+						contentType: false,
+						data: formData,
+						type: 'POST',
+					})
+					.done(function(data){
+						if(data["code"] === 200)
+							$(".return").text(data["filename"]);
+						else
+							$(".return").text("파일 업로드 실패");
+					});
+				}
 				var simplemde = new SimpleMDE({element: $("#md-content")[0]});
 				$('.picedit_box').picEdit({
 					imageUpdated: function(img){
@@ -39,8 +58,7 @@ block content
 							alert(data["code"]);
 					});
 				});
-
-				setInterval(function() {
+				function save() {
 					$.ajax({
 						url: "/admin/post",
 						type: "POST",
@@ -48,9 +66,15 @@ block content
 					})
 					.done(function(data) {
 						console.log(data);
-					});	
+					});
+				}
+				setInterval(function() {
+					save();
 				}, 1000 * 60);
-				$(".save_load").click(function() {
+				$(".save-btn").click(function(){
+					save();
+				});
+				$(".save-load").click(function() {
 					$.ajax({
 						url: "/admin/save",
 						type: "GET"
@@ -88,10 +112,35 @@ block content
 							alert(data["code"]);
 					});
 				});
+				$(".fileupload-btn").click(function(){
+					uploadFile();
+				});
 			});
 	else
 		script.
 			$(document).ready(function(){
+				function b64_to_utf8( str ) {
+					return decodeURIComponent(escape(window.atob( str )));
+				}
+				function uploadFile(){
+					var form = $('.upload')[0];
+					var formData = new FormData(form);
+					formData.append("file", $(".file")[0].files[0]);
+
+					$.ajax({
+						url: "/admin/upload",
+						processData: false,
+						contentType: false,
+						data: formData,
+						type: 'POST',
+					})
+					.done(function(data){
+						if(data["code"] === 200)
+							$(".return").text(data["filename"]);
+						else
+							$(".return").text("파일 업로드 실패");
+					});
+				}
 				var simplemde = new SimpleMDE({element: $("#md-content")[0]});
 				$('.picedit_box').picEdit({
 					imageUpdated: function(img){
@@ -117,7 +166,7 @@ block content
 					});
 				});
 
-				setInterval(function() {
+				function save() {
 					$.ajax({
 						url: "/admin/post",
 						type: "POST",
@@ -125,9 +174,15 @@ block content
 					})
 					.done(function(data) {
 						console.log(data);
-					});	
+					});
+				}
+				setInterval(function() {
+					save();
 				}, 1000 * 60);
-				$(".save_load").click(function() {
+				$(".save-btn").click(function(){
+					save();
+				});
+				$(".save-load").click(function() {
 					$.ajax({
 						url: "/admin/save",
 						type: "GET"
@@ -140,9 +195,12 @@ block content
 							$("input[name='tag']").val(data["data"]["tag"].toString());
 							$("select[name='bgcolor']").val(data["data"]["bgcolor"]);
 							$("input[name='thumbnail']").val(data["data"]["thumbnail"]);
-							simplemde.value(b64_to_utf8("#{post["content"]}"));
+							simplemde.value(b64_to_utf8(data["data"]["content"]));
 						}
 					});
+				});
+				$(".fileupload-btn").click(function(){
+					uploadFile();
 				});
 			});
 	.container.pt-4.pb-4.login
@@ -150,8 +208,8 @@ block content
 			h1 글쓰기
 		else
 			h1 글편집
-		//form(name="post", action="/admin/post", method="POST")
-		button.save_load.btn.btn-primary 글 불러오기
+		button.save-btn.btn.btn-primary 글 저장
+		button.save-load.btn.btn-primary 글 불러오기
 		div.form-group
 			label(for="formGroupExampleInput") 글 제목
 			input.form-control(type="text", placeholder="글 제목", name="title")
@@ -267,6 +325,9 @@ block content
 				button.picupload(type='submit') 사진 업로드
 			p.return.text-center.pt-3
 		div.form-group
+			.upload.pt-4.pb-4
+				input.file(type="file", name="file")
+				button.fileupload-btn 파일 업로드
 			textarea#md-content(name="content")
 			if mode === "write"
 				button.mdecontent.btn.btn-primary(type="submit") 글쓰기

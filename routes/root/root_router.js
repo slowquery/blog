@@ -2,7 +2,7 @@
 const joi = require("joi");
 const marked = require("marked");
 
-const index = async(ctx) => {
+const index = async(ctx, next) => {
 	const model = require("../../model/post");
 	const {search} = ctx.query;
 

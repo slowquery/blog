@@ -8,7 +8,8 @@ module.exports = {
 	redis_session: session({
 		store: redisStore({
 			host: "127.0.0.1",
-			port: 6379
+			port: 6379,
+			password: "pingumaster@#"
 		}),
 		cookie: {
 			path: "/",

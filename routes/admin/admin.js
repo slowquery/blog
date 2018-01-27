@@ -164,7 +164,7 @@ const upload = async(ctx) => {
 	try {
 		const filename = `${moment(new Date()).format("YYYY-MM-DD_HH-mm-ss_SSS")}${path.extname(ctx.request.body.files.file.name)}`;
 		let filemove = await new Promise((resolve, reject) => {
-			mv(`${ctx.request.body.files.file.path}`, `${config.path}/public/image/${filename}`, err => !err ? resolve(true) : reject(err));
+			mv(`${ctx.request.body.files.file.path}`, `${config.path}/upload/${filename}`, err => !err ? resolve(true) : reject(err));
 		});
 
 		if(!filemove) {
@@ -261,7 +261,7 @@ const post = async(ctx, next) => {
 				break;
 			case "save":
 				const save_mode = async() => {
-					let issave = await model.count();
+					let issave = await model.count({type: type});
 					
 					if(issave) {
 						let save_data = post.toObject();
@@ -353,6 +353,8 @@ const save_load = async(ctx) => {
 			}
 			return;
 		}
+
+		post_obj["content"] = new Buffer(post_obj["content"]).toString("base64");
 
 		ctx.status = 200;
 		ctx.body = {
