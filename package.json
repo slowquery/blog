@@ -1,0 +1,43 @@
+{
+  "name": "imustdo.work-blog",
+  "version": "1.0.0",
+  "description": "my blog",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/antiwebkr/myblog.git"
+  },
+  "keywords": [
+    "myblog"
+  ],
+  "author": "antiweb@noe.systems",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/antiwebkr/myblog#readme",
+  "dependencies": {
+    "htmldom": "^1.0.1",
+    "joi": "^13.1.1",
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-generic-session": "^2.0.1",
+    "koa-json": "^2.0.2",
+    "koa-mount": "^3.0.0",
+    "koa-pug": "^3.0.0-2",
+    "koa-redis": "^3.1.2",
+    "koa-router": "^7.3.0",
+    "koa-static": "^4.0.2",
+    "lodash": "^4.17.4",
+    "marked": "^0.3.12",
+    "moment": "^2.20.1",
+    "mongoose": "^5.0.1",
+    "mv": "^2.1.1",
+    "xss": "^0.3.7"
+  }
+}

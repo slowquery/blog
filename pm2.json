@@ -1,0 +1,5 @@
+{
+	"name"        : "myblog",
+	"script"      : "./server.js",
+	"watch"       : true
+}
