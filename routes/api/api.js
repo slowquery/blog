@@ -1,5 +1,6 @@
 "use strict";
 const joi = require("joi");
+const _ = require("lodash");
 const moment = require("moment");
 const util = require("../../lib/util");
 
@@ -10,10 +11,11 @@ const index = async(ctx) => {
 
 const post = async(ctx) => {
 	const model = require("../../model/post");
-	let {token} = ctx.query;
+	let {token, search} = ctx.query;
 
 	const joi_schema = joi.object({
-		token: joi.string().alphanum().min(24).max(24).required()
+		token: joi.string().alphanum().min(24).max(24).required(),
+		search: joi.string()
 	});
 	
 	if(joi.validate(ctx.query, joi_schema).error) {
@@ -26,7 +28,7 @@ const post = async(ctx) => {
 	}
 
 	try {
-		let post = await model.getPost(token);
+		let post = search ? await model.getPostSearch(search, token) : await model.getPost(token);
 
 		if(!post) {
 			ctx.status = 404;
@@ -115,6 +117,79 @@ const auth = async(ctx) => {
 	}
 }
 
+const comment = async(ctx) => {
+	const xss = require("xss");
+	const model = require("../../model/comment");
+	const postModel = require("../../model/post");
+	let {post, user_name, content} = ctx.request.body;
+
+	const joi_schema = joi.object({
+		post: joi.string().alphanum().min(24).max(24).required(),
+		user_name: joi.string().required(),
+		content: joi.string().required()
+	});
+	
+	if(joi.validate(ctx.request.body, joi_schema).error) {
+		ctx.status = 401;
+		ctx.body = {
+			code: 401,
+			body: "invalid parameter"
+		};
+		return;
+	}
+
+	try {
+		let comment = new model({
+			post: post,
+			user_name: xss(user_name),
+			content: xss(content)
+		});
+
+		console.log(comment.toObject());
+
+		let post_push = await postModel.pushComment({post: post, comment: comment._id});
+
+		if(!post_push) {
+			ctx.status = 400;
+			ctx.body = {
+				code: 602
+			}
+			return;
+		}
+
+		let comment_create = await new Promise((resolve, reject) => {
+			comment.save((err, data) => err ? reject(err) : resolve(data));
+		});
+
+		if(!comment_create) {
+			ctx.status = 400;
+			ctx.body = {
+				code: 602
+			}
+			return;
+		}
+
+		ctx.status = 200;
+		ctx.body = {
+			code: 200,
+			data: {
+				user_name: xss(user_name),
+				content: xss(content)
+			}
+		};
+		return;
+	} catch(err) {
+		console.error(err);
+		ctx.status = 500;
+		ctx.body = {
+			code: 400,
+			body: "error"
+		};
+		return;
+	}
+}
+
 module.exports.index = index;
 module.exports.post = post;
 module.exports.auth = auth;
+module.exports.comment = comment;

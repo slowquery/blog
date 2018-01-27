@@ -4,9 +4,23 @@ const marked = require("marked");
 
 const index = async(ctx) => {
 	const model = require("../../model/post");
+	const {search} = ctx.query;
+
+	const joi_schema = joi.object({
+		search: joi.string()
+	});
+
+	if(joi.validate(ctx.query, joi_schema).error) {
+		ctx.status = 401;
+		ctx.body = {
+			code: 401,
+			body: "invalid parameter"
+		};
+		return;
+	}
 
 	try {
-		let posts = await model.getPost();
+		let posts = search ? await model.getPostSearch(search) : await model.getPost();
 
 		ctx.render("index", {post: posts, moment: require("moment")});
 		return;
@@ -19,6 +33,7 @@ const index = async(ctx) => {
 
 const view = async(ctx) => {
 	const model = require("../../model/post");
+	const commentModel = require("../../model/comment");
 	const html = require("htmldom");
 
 	let {view_id} = ctx.params;
@@ -40,7 +55,7 @@ const view = async(ctx) => {
 
 	try {
 		let post = await new Promise((resolve, reject) => {
-			model.findOne({_id: view_id}, (err, data) => err ? reject(err) : resolve(data));
+			model.findOne({_id: view_id}).populate("comment").exec((err, data) => err ? reject(err) : resolve(data));
 		});
 
 		if(!post) {
@@ -59,6 +74,13 @@ const view = async(ctx) => {
 
 			ctx.session.auth ?
 				ctx.session = null : null;
+
+			!ctx.session.view ? ctx.session.view = [] : null;
+
+			if(ctx.session.view.indexOf(view_id) === -1) {
+				let view_update = await model.addView(view_id);
+				ctx.session.view.push(view_id);
+			}
 
 			ctx.render("view", {post: post, moment: require("moment")});
 			return;

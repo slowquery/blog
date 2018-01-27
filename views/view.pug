@@ -11,6 +11,35 @@ block scripts
 	script.
 		hljs.initHighlightingOnLoad();
 block content
+	script.
+		$(document).ready(function(){
+			function comment() {
+				$.ajax({
+					url: "/api/comment",
+					type: "POST",
+					data: "user_name=" + $("input[name='name']").val() + "&content=" + $("textarea[name='comment']").val() + "&post=" + location.pathname.slice(6, -1),
+					error: function() {
+						location.href = "/";
+					}
+				})
+				.done(function(data){
+					if(data["code"] === 200) {
+						$(".comment-real-count").text(Number($(".comment-real-count").text()) + 1);
+						$(".comment-list.mt-4").append("<div class='real-comment'><div class='real-comment-name'>" + data["data"]["user_name"] + "</div><div class='real-comment-main'>" + data["data"]["content"] + "</div><hr class='my-1 mt-3 mb-3'></div>");
+						$("input[name='name']").val('');
+						$("textarea[name='comment']").val('');
+					}
+					else
+						location.href = "/";
+				});
+			}
+			$(".comment-send").click(function(){
+				comment();
+			});
+			$("textarea[name='comment']").keyup(function(e){
+				if(e.keyCode == 13) comment();
+			});
+		});
 	.post-main.container
 		if post
 			.post-main-wrapper
@@ -26,7 +55,8 @@ block content
 						span.badge.badge-success #{tag}
 			hr.my-4
 			.main-comment
-				.comment-count 댓글 7
+				.comment-count 댓글 
+					span.comment-real-count #{post["comment"] ? post["comment"].length : 0}
 				.comment-input
 					.comment-name
 						input(type='text', placeholder='작성자 이름', name='name')
@@ -37,18 +67,11 @@ block content
 						.comment-notice-text enter로 전송, shift+enter로 줄바꿈이 가능합니다.
 						button.comment-send 전송
 			.comment-list.mt-4
-				.real-comment
-					.real-comment-name 구창림
-					.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
-					hr.my-1.mt-3.mb-3
-				.real-comment
-					.real-comment-name 구창림
-					.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
-					hr.my-1.mt-3.mb-3
-				.real-comment
-					.real-comment-name 구창림
-					.real-comment-main 좋은 글 잘 보았습니다 ^^ 다음에도 좋은 글 써주세요!
-					hr.my-1.mt-3.mb-3
+				each comment in post["comment"]
+					.real-comment
+						.real-comment-name #{comment["user_name"]}
+						.real-comment-main #{comment["content"]}
+						hr.my-1.mt-3.mb-3
 		else
 			script.
 				$(document).ready(function(){

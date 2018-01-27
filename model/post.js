@@ -45,7 +45,13 @@ const post = new Schema({
 		type: Number,
 		default: 0,
 		required: true
-	}
+	},
+	comment: [
+		{
+			type: mongoose.Schema.Types.ObjectId, 
+			ref: "comment"
+		}
+	]
 });
 
 post.statics = {
@@ -54,6 +60,28 @@ post.statics = {
 			seq ?
 				this.find({_id: {$lt: seq}, type: {$ne: "save"}}, {type: 0, tag: 0, __v: 0, content: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post)) :
 				this.find().sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post));
+		});
+	},
+	getPostSearch(search, seq) {
+		return new Promise((resolve, reject) => {
+			seq ?
+				this.find({_id: {$lt:seq}, $or:[{title:{$regex: search}},{tag:{$regex: search}}]}, {type: 0, tag: 0, __v: 0, content: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post)) :
+				this.find({$or:[{title:{$regex: search}},{tag:{$regex: search}}]}, {type: 0, tag: 0, __v: 0, content: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post));
+		});
+	},
+	pushComment(obj) {
+		return new Promise((resolve, reject) => {
+			this.update({_id: obj.post}, {$push: {comment: obj.comment}}, (err, data) => err ? reject(err) : resolve(data));
+		});
+	},
+	pullComment(obj) {
+		return new Promise((resolve, reject) => {
+			this.update({_id: obj.post}, {$pull: {comment: obj.comment}}, (err, data) => err ? reject(err) : resolve(data));
+		});
+	},
+	addView(id) {
+		return new Promise((resolve, reject) => {
+			this.update({_id: id}, {$inc: {view: 1}}, (err, data) => err ? reject(err) : resolve(data));
 		});
 	}
 }

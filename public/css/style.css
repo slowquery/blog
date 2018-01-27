@@ -103,6 +103,9 @@ body {
 	color: #FFF;
 	font-weight: 400;
 }
+.not-found-post {
+	padding: 3em 0;
+}
 .loading {
 	width: 100%;
 }

@@ -3,12 +3,16 @@ $(document).ready(function(){
 	var scene = new ScrollMagic.Scene({triggerElement: ".loading", triggerHook: "onEnter"})
 		.addTo(controller)
 		.on("enter", function (e) {
-			setTimeout(Scroll, 0);
+			if($(".post-cardlist.col-md-4").length >= 6)
+				setTimeout(Scroll, 0);
+			else
+				$(".loading").hide();
 		});
 	function Scroll() {
 		$(".loading").show();
+		var url = location.search ? "/api/post" + "?token=" + $(".post-cardlist.col-md-4").last().attr("data-id") + "&" + location.search.slice(1) : "/api/post" + "?token=" + $(".post-cardlist.col-md-4").last().attr("data-id");
 		$.ajax({
-			url: "/api/post" + "?token=" + $(".post-cardlist.col-md-4").last().attr("data-id"),
+			url: url,
 			type: "GET"
 		})
 		.done(function(data) {

@@ -52,6 +52,7 @@ const write = async(ctx) => {
 				};
 				return;
 			}
+			post_data["content"] = new Buffer(post_data["content"]).toString("base64");
 			ctx.render("admin/write", {admin: true, mode: "edit", post: post_data, id: id});
 			return;
 		}
@@ -406,6 +407,83 @@ const post_delete = async(ctx) => {
 	}
 }
 
+const comment = async(ctx) => {
+	const model = require("../../model/comment");
+
+	try {
+		let comments = await new Promise((resolve, reject) => {
+			model.find({}).sort({_id: -1}).exec((err, data) => err ? reject(err) : resolve(data));
+		});
+
+		ctx.render("admin/comment", {admin: true, comment: comments});
+		return;
+	} catch(err) {
+		console.error(err);
+		ctx.redirect("/");
+		return;
+	}
+}
+
+const comment_delete = async(ctx) => {
+	const model = require("../../model/comment");
+	const postModel = require("../../model/post");
+	let {id} = ctx.query;
+
+	if(!id) {
+		ctx.status = 400;
+		ctx.body = {
+			code: 600
+		}
+		return;
+	}
+
+	try {
+		let comment_info = await new Promise((resolve, reject) => {
+			model.findOne({_id: id}, (err, data) => err ? reject(err) : resolve(data));
+		});
+
+		if(!comment_info) {
+			ctx.status = 400;
+			ctx.body = {
+				code: 401
+			}
+			return;
+		}
+
+		let post_comment_del = await postModel.pullComment({comment: id, post: comment_info.post});
+
+		if(!post_comment_del) {
+			ctx.status = 400;
+			ctx.body = {
+				code: 401
+			}
+			return;
+		}
+
+		let comment_del = await new Promise((resolve, reject) => {
+			model.remove({_id: id}, (err, data) => err ? reject(err) : resolve(data));
+		});
+
+		if(!comment_del) {
+			ctx.status = 400;
+			ctx.body = {
+				code: 401
+			}
+			return;
+		}
+
+		ctx.redirect("/admin/commgt");
+		return;
+	} catch(err) {
+		console.error(err);
+		ctx.status = 400;
+		ctx.body = {
+			code: 601
+		}
+		return;
+	}
+}
+
 const logout = async(ctx) => {
 	let {admin} = ctx.session;
 	
@@ -428,4 +506,6 @@ module.exports.upload = upload;
 module.exports.post = post;
 module.exports.save_load = save_load;
 module.exports.post_delete = post_delete;
+module.exports.comment = comment;
+module.exports.comment_delete = comment_delete;
 module.exports.logout = logout;

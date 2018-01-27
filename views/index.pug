@@ -18,21 +18,24 @@ block content
 						|  antiweb
 					.introduce 이곳은 너가 얼마나 자랑스러운지 자랑하는 자기소개 부분임
 			.post.mt-4.mb-4
-				.row
-					each data in post
-						.post-cardlist.col-md-4(data-id=`${data["_id"]}`)
-							.card
-								.card.card-inverse
-									a(href=`/view/${data["_id"]}/`)
-										if data["bgcolor"] !== null
-											.post-card(style=`background-color: ${data["bgcolor"]}`)
-										else
-											.post-card(style=`background-image: url(/image/${data["thumbnail"]})`)
-										.card-img-overlay
-											span #{moment(new Date(data["time"])).format("YYYY.MM.DD")}
-											.post-content
-												.post-title #{data["title"]}
-												.post-description #{data["description"]}
-					.loading.col-4.mx-auto.text-center
-						img(src='/image/loading.gif')
+				if post.length
+					.row
+						each data in post
+							.post-cardlist.col-md-4(data-id=`${data["_id"]}`)
+								.card
+									.card.card-inverse
+										a(href=`/view/${data["_id"]}/`)
+											if data["bgcolor"] !== null
+												.post-card(style=`background-color: ${data["bgcolor"]}`)
+											else
+												.post-card(style=`background-image: url(/image/${data["thumbnail"]})`)
+											.card-img-overlay
+												span #{moment(new Date(data["time"])).format("YYYY.MM.DD")}
+												.post-content
+													.post-title #{data["title"]}
+													.post-description #{data["description"]}
+						.loading.col-4.mx-auto.text-center
+							img(src='/image/loading.gif')
+				else
+					h2.text-center.not-found-post 글이 없습니다.
 		include footer.pug

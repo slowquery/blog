@@ -12,6 +12,9 @@ block content
 	if post
 		script.
 			$(document).ready(function(){
+				function b64_to_utf8( str ) {
+				    return decodeURIComponent(escape(window.atob( str )));
+				}
 				var simplemde = new SimpleMDE({element: $("#md-content")[0]});
 				$('.picedit_box').picEdit({
 					imageUpdated: function(img){
@@ -60,7 +63,7 @@ block content
 							$("input[name='tag']").val(data["data"]["tag"].toString());
 							$("select[name='bgcolor']").val(data["data"]["bgcolor"]);
 							$("input[name='thumbnail']").val(data["data"]["thumbnail"]);
-							simplemde.value(data["data"]["content"]);
+							simplemde.value(b64_to_utf8("#{post["content"]}"));
 						}
 					});
 				});
@@ -71,7 +74,7 @@ block content
 				$("input[name='tag']").val("#{post["tag"]}");
 				$("select[name='bgcolor']").val("#{post["bgcolor"]}");
 				$("input[name='thumbnail']").val("#{post["thumbnail"]}");
-				simplemde.value(`#{post["content"]}`);
+				simplemde.value(b64_to_utf8("#{post["content"]}"));
 				$(".mdecontent-edit").click(function(){
 					$.ajax({
 						url: "/admin/post",
@@ -137,7 +140,7 @@ block content
 							$("input[name='tag']").val(data["data"]["tag"].toString());
 							$("select[name='bgcolor']").val(data["data"]["bgcolor"]);
 							$("input[name='thumbnail']").val(data["data"]["thumbnail"]);
-							simplemde.value(data["data"]["content"]);
+							simplemde.value(b64_to_utf8("#{post["content"]}"));
 						}
 					});
 				});

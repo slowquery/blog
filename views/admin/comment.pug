@@ -1,0 +1,23 @@
+extends header.pug
+block title
+	title 블로그 admin
+block scripts
+	link(rel='stylesheet', href='/css/admin.css')
+block content
+		.container.pt-4.login
+			h1 댓글 삭제
+			div.container.text-center
+				if comment.length
+					table.table.table-striped
+						thead
+							tr
+								th(scope="col") Username
+								th(scope="col") Comment
+								th(scope="col") Delete
+						tbody
+							each data in comment
+								tr
+									th(scope="row") #{data["user_name"]}
+									th(scope="row") #{data["content"]}
+									th(scope="row") 
+										a(href=`comment?id=${data["_id"]}`) 삭제

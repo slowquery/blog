@@ -5,6 +5,8 @@ const path = require("path");
 const koaBody = require("koa-body")({multipart: true});
 const admin = require("./admin");
 
+router.get("/comment", admin.admin_auth, admin.comment_delete); // delete...
+router.get("/commgt", admin.admin_auth, admin.comment);
 router.get("/logout", admin.admin_auth, admin.logout);
 router.get("/post", admin.admin_auth, admin.post_delete); // delete...
 router.get("/save", admin.admin_auth, admin.save_load);
