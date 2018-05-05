@@ -21,6 +21,6 @@ module.exports = {
 		key: "PHPSESSID",
 		prefix: "blog:"
 	}),
-	mongoURI: "mongodb://antiweb%3Apingumaster!%23@127.0.0.1:27017/blog",
+	mongoURI: "mongodb://antiweb:pingumaster!%23@127.0.0.1:27017/blog",
 	path: __dirname
 }

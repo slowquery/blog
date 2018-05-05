@@ -59,14 +59,14 @@ post.statics = {
 		return new Promise((resolve, reject) => {
 			seq ?
 				this.find({_id: {$lt: seq}, type: {$ne: "save"}}, {type: 0, tag: 0, __v: 0, content: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post)) :
-				this.find({}, {type: 0, tag: 0, __v: 0, content: 0, comment: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post));
+				this.find({type: {$ne: "save"}}, {type: 0, tag: 0, __v: 0, content: 0, comment: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post));
 		});
 	},
 	getPostSearch(search, seq) {
 		return new Promise((resolve, reject) => {
 			seq ?
-				this.find({_id: {$lt:seq}, $or:[{title:{$regex: search}},{tag:{$regex: search}}]}, {type: 0, tag: 0, __v: 0, content: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post)) :
-				this.find({$or:[{title:{$regex: search}},{tag:{$regex: search}}]}, {type: 0, tag: 0, __v: 0, content: 0, comment: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post));
+				this.find({type: {$ne: "save"}, _id: {$ne:seq}, $or:[{title:{$regex: search}},{tag:{$regex: search}}]}, {type: 0, tag: 0, __v: 0, content: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post)) :
+				this.find({type:{$ne: "save"}, $or:[{title:{$regex: search}},{tag:{$regex: search}}]},{type: 0, tag: 0, __v: 0, content: 0}).sort({_id: -1}).limit(6).exec((err, post) => err ? reject(err) : resolve(post));
 		});
 	},
 	pushComment(obj) {

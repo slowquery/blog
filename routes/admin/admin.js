@@ -23,7 +23,7 @@ const main_view = async(ctx) => {
 
 	try {
 		let posts = await new Promise((resolve, reject) => {
-			model.find({}).sort({_id: -1}).exec((err, data) => err ? reject(err) : resolve(data));
+			model.find({type: {$ne: "save"}}).sort({_id: -1}).exec((err, data) => err ? reject(err) : resolve(data));
 		});
 
 		ctx.render("admin/main", {admin: true, post: posts});
@@ -306,6 +306,7 @@ const post = async(ctx, next) => {
 					}
 					let save_data = post.toObject();
 					delete save_data["_id"];
+					delete save_data["time"];
 
 					let post_update = await new Promise((resolve, reject) => {
 						model.update({_id: id}, save_data, (err, data) => err ? reject(err) : resolve(data));

@@ -10,6 +10,12 @@ html
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js')
 		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js')
 		script(src='/js/infinitescroll.js')
+		script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-113304012-1')
+		script.
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-113304012-1');
 		block scripts
 	body
 		
@@ -21,9 +27,9 @@ html
 				#blog-nav.collapse.navbar-collapse
 					ul.navbar-nav.mr-auto
 						li.nav-item
-							a.nav-link(href='#') 소개 
+							a.nav-link(href='#') 
 							span.sr-only (current)
-					form.form-inline.mt-2.mt-md-0.mb-0(method="GET")
+					form.form-inline.mt-2.mt-md-0.mb-0(method="GET", action="/")
 						input.form-control.mr-sm-2(type='text', placeholder='Search', aria-label='Search', name='search')
 						button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
 		block content
