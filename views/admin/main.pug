@@ -13,6 +13,7 @@ block content
 							tr
 								th(scope="col") Title
 								th(scope="col") Description
+								th(scope="col") View
 								th(scope="col") Edit
 								th(scope="col") Delete
 						tbody
@@ -20,6 +21,7 @@ block content
 								tr
 									th(scope="row") #{data["title"]}
 									th(scope="row") #{data["description"]}
+									th(scope="row") #{data["view"]}
 									th(scope="row")
 										a(href=`write?mode=edit&id=${data["_id"]}`) 수정
 									th(scope="row") 

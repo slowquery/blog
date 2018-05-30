@@ -175,6 +175,8 @@ body {
 }
 .post-main .main-content img {
 	max-width: 100%;
+	margin-bottom: 1em;
+	margin-top: .5em;
 }
 .post-main .main-content .tag {
 	font-size: 1.2em;

@@ -72,8 +72,8 @@ const view = async(ctx) => {
 
 			post["content"] = dom.html();
 
-			ctx.session.auth ?
-				ctx.session = null : null;
+			//ctx.session.auth ?
+			//	ctx.session = null : null;
 
 			!ctx.session.view ? ctx.session.view = [] : null;
 
@@ -86,7 +86,7 @@ const view = async(ctx) => {
 			return;
 		}
 		else {
-			ctx.render("view", {id: view_id});
+			ctx.render("view", {id: view_id, title: post["title"]});
 			return;
 		}
 	} catch(err) {

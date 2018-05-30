@@ -307,6 +307,7 @@ const post = async(ctx, next) => {
 					let save_data = post.toObject();
 					delete save_data["_id"];
 					delete save_data["time"];
+					delete save_data["view"];
 
 					let post_update = await new Promise((resolve, reject) => {
 						model.update({_id: id}, save_data, (err, data) => err ? reject(err) : resolve(data));
