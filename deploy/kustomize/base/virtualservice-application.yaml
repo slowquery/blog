@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: blog-application
+  namespace: blog
+  labels:
+    app.kubernetes.io/name: application
+    app.kubernetes.io/part-of: imustdo.work
+spec:
+  hosts:
+    - imustdo.work
+    - www.imustdo.work
+  gateways:
+    - istio-system/blog
+  http:
+    - route:
+        - destination:
+            host: application.blog.svc.cluster.local
+            port:
+              number: 9000

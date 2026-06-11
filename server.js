@@ -35,7 +35,7 @@ app.use(async(ctx, next) => {
 
 // public directory setting
 app.use(serve(`${__dirname}/public`));
-app.use(mount("/image", serve(`${__dirname}/upload`)));
+app.use(mount("/image", serve(config.uploadPath)));
 
 // debugger setting
 app.use(async(ctx, next) => {

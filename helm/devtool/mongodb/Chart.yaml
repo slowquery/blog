@@ -1,0 +1,10 @@
+apiVersion: v2
+name: devtool-mongodb
+description: MongoDB for imustdo.work blog (devtool namespace)
+type: application
+version: 0.1.0
+appVersion: "8.3.3"
+dependencies:
+  - name: mongodb
+    version: 19.1.6
+    repository: oci://registry-1.docker.io/bitnamicharts

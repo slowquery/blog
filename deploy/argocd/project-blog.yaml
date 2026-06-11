@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: blog
+  namespace: devtool
+  labels:
+    app.kubernetes.io/part-of: imustdo.work
+spec:
+  description: imustdo.work blog (blog namespace + Istio ingress)
+  sourceRepos:
+    - git@github.com:slowquery/blog
+    - https://github.com/slowquery/blog
+    - https://github.com/slowquery/blog.git
+  destinations:
+    - namespace: blog
+      server: https://kubernetes.default.svc
+    - namespace: istio-system
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: networking.istio.io
+      kind: Gateway
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

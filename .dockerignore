@@ -1,0 +1,8 @@
+node_modules
+.git
+.env
+deploy/.env.*
+helm/devtool/.env.devtool
+**/values.secrets.yaml
+dump.zip
+upload

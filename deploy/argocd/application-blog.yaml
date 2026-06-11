@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: blog
+  namespace: devtool
+  labels:
+    app.kubernetes.io/part-of: imustdo.work
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: blog
+  sources:
+    - repoURL: https://github.com/slowquery/blog.git
+      targetRevision: master
+      path: deploy/helm/application
+      helm:
+        releaseName: blog
+        valueFiles:
+          - values.yaml
+    - repoURL: https://github.com/slowquery/blog.git
+      targetRevision: master
+      path: deploy/kustomize/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: blog
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

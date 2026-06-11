@@ -8,7 +8,19 @@
   },
   "scripts": {
     "test": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "harbor:project": "bash deploy/scripts/harbor-project-apply.sh",
+    "helm:devtool:secrets": "bash helm/devtool/scripts/devtool-secrets-generate.sh",
+    "helm:devtool:secrets:force": "DEVTOOL_SECRETS_FORCE=1 bash helm/devtool/scripts/devtool-secrets-generate.sh",
+    "helm:devtool:install:mongodb": "bash helm/devtool/scripts/install.sh mongodb",
+    "deploy:mongodb:restore": "bash deploy/scripts/mongodb-restore-dump.sh",
+    "deploy:upload:sync": "bash deploy/scripts/upload-sync.sh",
+    "deploy:verify": "bash deploy/scripts/verify-service.sh",
+    "deploy:finish": "bash deploy/scripts/finish-migration.sh",
+    "deploy:secrets": "bash deploy/scripts/sync-app-secrets.sh",
+    "deploy:argocd": "bash deploy/scripts/apply-argocd-apps.sh",
+    "deploy:argocd:repo": "bash deploy/scripts/argocd-repo-secret-apply.sh",
+    "deploy:gateway-hosts": "bash deploy/scripts/gateway-hosts-apply.sh"
   },
   "repository": {
     "type": "git",

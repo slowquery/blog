@@ -166,7 +166,7 @@ const upload = async(ctx) => {
 	try {
 		const filename = `${moment(new Date()).format("YYYY-MM-DD_HH-mm-ss_SSS")}${path.extname(ctx.request.body.files.file.name)}`;
 		let filemove = await new Promise((resolve, reject) => {
-			mv(`${ctx.request.body.files.file.path}`, `${config.path}/upload/${filename}`, err => !err ? resolve(true) : reject(err));
+			mv(`${ctx.request.body.files.file.path}`, `${config.uploadPath}/${filename}`, err => !err ? resolve(true) : reject(err));
 		});
 
 		if(!filemove) {
