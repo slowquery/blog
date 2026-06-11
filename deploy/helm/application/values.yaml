@@ -1,28 +1,21 @@
-# CI deploy-bump job이 images.application.tag / appVersion 을 semver 로 갱신합니다.
 global:
   registry: image.registry.playstyle.lol
   project: blog
   imagePullSecrets:
-    - harbor-registry
-
-appVersion: "1.0.0"
-
+  - harbor-registry
+appVersion: 1.1.2
 revisionHistoryLimit: 0
-
 images:
   application:
     repository: application
-    tag: "1.0.0"
-
+    tag: 1.1.2
 application:
   replicaCount: 1
   port: 9000
-
 persistence:
   upload:
     enabled: true
     size: 1Gi
     mountPath: /app/upload
-
 secrets:
   envSecretName: blog-app-env
