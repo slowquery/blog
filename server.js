@@ -48,6 +48,7 @@ app.use(async(ctx, next) => {
 // router setting
 app.use(require("./routes").routes());
 
+
 // server open
 app.listen(config.port, () => {
 	console.log(`SERVER ${config.port} LISTEN!`);

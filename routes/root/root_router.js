@@ -11,15 +11,22 @@ const index = async(ctx, next) => {
 	});
 
 	if(joi.validate(ctx.query, joi_schema).error) {
+		/*
 		ctx.status = 401;
 		ctx.body = {
 			code: 401,
 			body: "invalid parameter"
 		};
+		*/
+		ctx.redirect("/");
 		return;
 	}
 
 	try {
+		if(ctx.path !== "/") {
+			ctx.redirect("/");
+		}
+
 		let posts = search ? await model.getPostSearch(search) : await model.getPost();
 
 		ctx.render("index", {post: posts, moment: require("moment")});

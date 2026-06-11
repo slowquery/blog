@@ -87,9 +87,14 @@ body {
 	/*-o-transform: scale(1.1);
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);*/
+	box-shadow: 0px 16px 32px #BDBDBD;
+	-webkit-box-shadow: 0px 16px 32px #BDBDBD;
+	-moz-box-shadow: 0px 16px 32px #BDBDBD;
+/*
 	box-shadow: 0 12px 8px -6px #ccc;
 	-webkit-box-shadow: 0 12px 8px -6px #ccc;
 	-moz-box-shadow: 0 12px 8px -6px #ccc;
+	*/
 }
 .post-cardlist {
 	padding: 15px;

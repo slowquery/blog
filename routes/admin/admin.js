@@ -103,6 +103,7 @@ const login = async(ctx) => {
 
 		let count = await model.count();
 
+		console.log(count);
 		if(count === 1) {
 			let login = await model.login({
 				user_id: user_id,
@@ -131,6 +132,7 @@ const login = async(ctx) => {
 			return;
 		}
 		else {
+			console.log("CREATE");
 			let admin_create = await new Promise((resolve, reject) => {
 				admin.save((err, data) => err ? reject(err) : resolve(data));
 			});
