@@ -18,6 +18,7 @@ jobs:
     outputs:
       version: ${{ steps.out.outputs.version }}
       short_sha: ${{ steps.out.outputs.short_sha }}
+      commit_sha: ${{ steps.out.outputs.commit_sha }}
     permissions:
       contents: write
     steps:
@@ -59,6 +60,7 @@ jobs:
         run: |
           echo "version=${{ steps.semver.outputs.version }}" >> "${GITHUB_OUTPUT}"
           echo "short_sha=$(git rev-parse --short HEAD)" >> "${GITHUB_OUTPUT}"
+          echo "commit_sha=$(git rev-parse HEAD)" >> "${GITHUB_OUTPUT}"
 
   build:
     needs: version
@@ -66,7 +68,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'push' && needs.version.outputs.short_sha || github.sha }}
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'push' && needs.version.outputs.commit_sha || github.sha }}
 
       - name: Configure Docker insecure registry
         run: |
